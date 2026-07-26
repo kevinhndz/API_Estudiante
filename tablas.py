@@ -8,6 +8,7 @@ class TablaEstudiantes(MiClaseBase):
     id = Column(Integer, primary_key=True)
     nombre = Column(String)
     cuenta = Column(String, unique = True)
+    carrera = Column(String)
     correo= Column(String, unique=True)
     edad = Column(Integer)
     
