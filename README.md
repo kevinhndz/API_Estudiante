@@ -182,7 +182,63 @@ De esta forma, la base de datos trata la entrada como datos, nunca como codigo S
 ✔️ Capturas de prueba en Postman  
 
 ---
+# Preguntas y Respuestas del Proyecto
 
-## 📷 Pruebas Realizadas
 
-Todas las operaciones fueron probadas en **Postman** y estan documentadas con capturas en la seccion de **Evidencias**.
+### 1. ¿Cuál es la diferencia entre POST y PUT?
+
+POST es para crear estudiantes nuevos. Cada vez que hago un POST, se crea un registro nuevo y el servidor le asigna un ID automático. PUT es para editar un estudiante que ya existe. Ahí tengo que meter el ID en la URL tipo `/estudiantes/3` para saber cuál voy a modificar.
+
+---
+
+### 2. ¿Por qué pusiste UNIQUE en la cuenta y el correo?
+
+Porque la cuenta es como el número de cédula del estudiante, no puede haber dos iguales. Lo mismo con el correo, cada persona tiene uno diferente. Si alguien intenta crear un estudiante con una cuenta que ya existe, la base de datos rechaza el registro y tira error.
+
+---
+
+### 3. ¿Por qué SQLite y no otra base de datos?
+
+Porque SQLite no necesita un servidor aparte corriendo. Toda la BD está en un archivo que puedo llevar de un lado a otro. Es rápido para programas pequeños y para aprender. Si hago un proyecto grande en producción ya usaría PostgreSQL o MySQL, pero para esto SQLite está perfecto.
+
+---
+
+### 4. ¿Qué pasa si meto una edad muy baja como 10 años?
+
+La idea era validar eso con Pydantic. Idealmente configuraría algo así para que solo acepte edades entre 17 y 80. Si se intenta mandar algo fuera de rango, la API devuelve error 422 diciendo que los datos no son válidos.
+
+---
+
+### 5. ¿Por qué usas ese `?` en las consultas SQL?
+
+Ese `?` es importante para la seguridad. Si concateno directo los datos del usuario en la consulta, un atacante puede hacer SQL Injection, que es inyectar código malicioso. Con el `?` la base de datos sabe que es un dato, no código. Así nadie puede meter un comando tipo `DROP TABLE` para borrar todo.
+
+---
+
+### 6. ¿Cuál es la diferencia entre lo que envío y lo que recibo en Postman?
+
+Lo que escribo en el Body antes de dar "Send" es lo que envío al servidor. Después el servidor me responde con otro Body. Generalmente me devuelve lo que envié más el ID que generó. Por ejemplo, si envío los datos de Carlos, me devuelve los mismos datos pero con `"id": 1`.
+
+---
+
+### 7. ¿Cuándo uso POST y cuándo uso PUT?
+
+POST es cuando creo un registro nuevo sin saber qué ID va a tener. La dirección es `/estudiantes` sin ID. PUT es cuando edito algo que ya existe y sé cuál es el ID, entonces voy a `/estudiantes/3` para editar el estudiante número 3.
+
+---
+
+### 8. ¿Qué es eso de 201 Created?
+
+Es un código HTTP que devuelve el servidor. El 200 OK significa que salió bien pero no creó nada nuevo. El 201 Created significa que salió bien Y además se creó un recurso nuevo. Entonces cuando hago POST debería recibir 201, no 200.
+
+---
+
+### 9. ¿Por qué GET no lleva Body?
+
+Porque GET es solo para pedir información, no para enviar datos nuevos. Los datos que necesito los meto en la URL, como `/estudiantes/3` o en parámetros como `?nombre=Carlos`. Como no estoy mandando mucho, no necesito Body. Si intentas mandar Body en un GET, el servidor lo ignora.
+
+---
+
+### 10. ¿Qué significa el código 409?
+
+El 409 Conflict aparece cuando intento crear algo que causa conflicto. En mi API, si intento crear un estudiante con una cuenta o correo que ya existe, recibo 409 porque viola el constraint UNIQUE que puse. Otros códigos que manejo son 400 (datos mal), 404 (no existe) y 500 (error del servidor).
