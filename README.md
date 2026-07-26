@@ -104,7 +104,7 @@ Obtiene el arreglo completo con todos los estudiantes registrados almacenados en
 
 Filtra y devuelve de forma individual la información del estudiante que coincida con el identificador en la URL.
 
-![GET por ID](img/GET_UNICO.png)
+![GET por ID](img/GETUNICO.png)
 
 **Ejemplo:** `GET /estudiantes/1`
 
