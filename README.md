@@ -1,61 +1,78 @@
-# 📚 API de Gestión de Estudiantes
-
-Proyecto de API REST desarrollado en **FastAPI** con **SQLite3** para gestionar información de estudiantes. La API permite crear, leer, actualizar y eliminar registros de estudiantes mediante endpoints HTTP.
-
+# 📚 API de Gestión de Estudiantes con SQLAlchemy
+ 
+Proyecto de API REST desarrollado en **FastAPI** con **SQLAlchemy** para gestionar información de estudiantes. La API permite crear, leer, actualizar y eliminar registros de estudiantes mediante endpoints HTTP.
+ 
 ---
-
+ 
+## 🌿 Ramas del Proyecto
+ 
+Este repositorio tiene **dos versiones diferentes**:
+ 
+### 🔵 Rama `main`
+- Usa **SQL directo** con comandos `INSERT`, `SELECT`, `UPDATE`, `DELETE`
+- Manejo manual de la base de datos con `sqlite3`
+- Ideal para entender cómo funciona SQL por dentro
+- **Menos código**, pero más vulnerable a SQL Injection si no se cuida
+### 🟣 Rama `Version2`
+- Usa **SQLAlchemy ORM**
+- Define tablas como clases Python
+- Más seguro y más fácil de mantener
+- **Instala dependencias adicionales:** `pip install sqlalchemy`
+**Para usar Version2:**
+```bash
+git checkout Version2
+pip install -r requirements.txt
+```
+ 
+---
+ 
 ## ⚙️ Cómo Instalar y Ejecutar
-
+ 
 ### Paso 1: Clonar el repositorio
-
+ 
 ```bash
 git clone https://github.com/kevinhndz/API_Estudiante.git
 cd API_Estudiante
 ```
-
+ 
 ### Paso 2: Crear el entorno virtual
-
+ 
 ```bash
 python -m venv venv
 ```
-
+ 
 Activar el entorno virtual:
-
+ 
 **En Windows:**
 ```bash
 venv\Scripts\activate
 ```
-
-**En Linux/Mac:**
-```bash
-source venv/bin/activate
-```
-
+ 
 ### Paso 3: Instalar las dependencias
-
+ 
 ```bash
 pip install -r requirements.txt
 ```
-
+ 
 ### Paso 4: Ejecutar el servidor
-
+ 
 ```bash
-uvicorn main:app --reload
+uvicorn app:app --reload
 ```
-
+ 
 La API estará disponible en `http://127.0.0.1:8000` 🚀
-
+ 
 ---
-
+ 
 ## 📂 Estructura del Proyecto
-
+ 
 ```
 API_Estudiante/
-├── main.py              # Archivo principal con los endpoints
-├── database.py          # Configuración y conexión de la BD
-├── schemas.py           # Modelos de validación con Pydantic
-├── crud.py              # Funciones para operaciones en la BD
-├── estudiantes.db       # Base de datos SQLite
+├── app.py               # Endpoints y lógica principal
+├── almacen.py           # Conexión a BD y configuración SQLAlchemy
+├── tablas.py            # Modelo de la tabla Estudiantes
+├── filtro_seguridad.py  # Validación de datos con Pydantic
+├── database.db          # Base de datos SQLite
 ├── requirements.txt     # Dependencias del proyecto
 └── img/                 # Capturas de las pruebas
     ├── POST.png
@@ -64,8 +81,54 @@ API_Estudiante/
     ├── PUT.png
     └── DELETE.png
 ```
-
+ 
 ---
+ 
+## 📝 Detalles Técnicos
+ 
+### ¿Qué es SQLAlchemy?
+ 
+SQLAlchemy es un ORM (Object-Relational Mapping). En lugar de escribir SQL directamente, defino mis tablas como clases de Python. Eso hace que el código sea más limpio y seguro.
+ 
+### Estructura de Archivos
+ 
+- **almacen.py:** Aquí configuro la conexión a SQLite. El `motor` es el encargado de ejecutar las queries. `abrir_puerta_bd()` es una función que abre y cierra la conexión cada vez que hago una petición.
+- **tablas.py:** Defino las columnas de la tabla como atributos de una clase. SQLAlchemy convierte eso automáticamente en una tabla en la BD.
+- **filtro_seguridad.py:** Uso Pydantic para validar los datos. `Revision` valida cuando creo o edito, y `RevisonEditada` permite campos opcionales para actualizaciones parciales.
+- **app.py:** Los endpoints de FastAPI que reciben peticiones, consultan la BD y devuelven respuestas.
+### Operaciones CRUD
+ 
+El proyecto implementa las 4 operaciones básicas:
+ 
+| Operación | Verbo HTTP | Qué hace |
+|---|---|---|
+| **Crear** | `POST` | Agregar un nuevo estudiante |
+| **Leer** | `GET` | Obtener datos de estudiantes |
+| **Actualizar** | `PUT` | Modificar un estudiante existente |
+| **Eliminar** | `DELETE` | Borrar un estudiante |
+ 
+### Por qué SQLite
+ 
+- **Fácil de usar:** No necesita un servidor externo
+- **Portátil:** Todo está en un solo archivo `.db`
+- **Perfecto para proyectos pequeños:** Rápido y sin complicaciones
+### Seguridad: Prevención de SQL Injection
+ 
+Con SQLAlchemy, no escribo SQL directamente. El ORM se encarga de construir las consultas de forma segura. No hay riesgo de SQL Injection porque los datos nunca se concatenan directamente.
+ 
+```python
+# Con SQLAlchemy es automáticamente seguro
+base_datos.query(TablaEstudiantes).get(id)
+```
+ 
+No necesito placeholders como `?` porque SQLAlchemy ya lo hace por mí.
+ 
+---
+
+## 📸 Mapa Mental de como se Mueven los Datos
+
+![ESTRUCTURA!](img/STRUCTURE.png)
+ 
 
 ## 📸 Evidencias de Pruebas en Postman (CRUD)
 
