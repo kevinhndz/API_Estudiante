@@ -1,4 +1,4 @@
-from fastapi import FastAPI , Depends
+from fastapi import FastAPI , Depends, HTTPException,status
 from sqlalchemy.orm import Session
 
 # importanciones de mis archivos
@@ -30,6 +30,7 @@ def crear_nuevo_estudiante(
         nombre = json_de_url.nombre,
         cuenta = json_de_url.cuenta,
         carrera = json_de_url.carrera,
+        telefono = json_de_url.telefono,
         correo = json_de_url.correo,
         edad = json_de_url.edad
         
@@ -73,6 +74,7 @@ def actualizar_registro(
     datos_actuales.nombre = json_corregio.nombre
     datos_actuales.cuenta = json_corregio.cuenta
     datos_actuales.carrera = json_corregio.carrera
+    datos_actuales.telefono = json_corregio.telefono
     datos_actuales.correo = json_corregio.correo
     datos_actuales.edad = json_corregio.edad
     base_datos.commit()
@@ -103,9 +105,13 @@ def editar_un_campo(
     
     # 1. Seguridad por si el registro no existe
     if caja_actual is None:
-        return {"error": f"No existe el estudiante con ID {id}"}
+         raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Error: Usuario con numero de id: {id} no ha sido encontrado"
+        )
     
     # 2. Actualización de campos
+    # Si el estudiante SI tiene informacion (no es None)
     if json_enviado.nombre is not None:
         caja_actual.nombre = json_enviado.nombre
     
@@ -114,6 +120,9 @@ def editar_un_campo(
         
     if json_enviado.carrera is not None:
         caja_actual.carrera = json_enviado.carrera
+        
+    if json_enviado.telefono is not None:
+        caja_actual.telefono = json_enviado.telefono
     
     if json_enviado.correo is not None:
         caja_actual.correo = json_enviado.correo
@@ -128,8 +137,25 @@ def editar_un_campo(
     return caja_actual
 
 
+    #Reto adicional!
+@app.get('/estudiantes/cuenta/{cuenta}')
+def filtrar_por_cuenta(
     
+    cuenta: int,
+    base_datos: Session = Depends(abrir_puerta_bd)
     
+):
+    cuenta_a_buscar = base_datos.query(TablaEstudiantes).filter(TablaEstudiantes.cuenta == cuenta).first()
+    
+    # Si el estudiante SI tiene informacion (no es None)
+    if cuenta_a_buscar is not None:
+        return cuenta_a_buscar
+       
+    else:
+         raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Error: Usuario con número de cuenta: {cuenta} no ha sido encontrado"
+        )
     
     
     

@@ -8,6 +8,7 @@ class Revision(BaseModel):
     nombre: str = Field(min_length=3,max_length=100)
     cuenta: str = Field(min_length=3,max_length=30)
     carrera: str = Field(min_length=3, max_length=100)
+    telefono: int = Field(ge=8, le=10)
     correo: str = Field(min_length=5,max_length=120)
     edad: int = Field(ge=15, le=100)
  
@@ -17,6 +18,7 @@ class RevisonEditada(BaseModel):
     nombre: str | None = None
     cuenta: str | None = None
     carrera: str | None = None
+    telefono: int | None = None
     correo: str | None = None
     edad: int | None = None
     
