@@ -58,7 +58,17 @@ def ver_estudiante_por_id(
     id: int,
     base_datos: Session = Depends(abrir_puerta_bd)
 ):
-    return base_datos.query(TablaEstudiantes).get(id)
+    
+    id_enviado = base_datos.query(TablaEstudiantes).filter(TablaEstudiantes.id== id).first()
+    
+    if id_enviado is not None:
+        raise HTTPException(
+            status = status.HTTP_404_NOT_FOUND,
+            detail = f"Error! El Numero de cuenta : {id} no ha sido encontrado en el sistema"
+        )
+    else:
+         return base_datos.query(TablaEstudiantes).get(id)
+   
 
 
 
@@ -143,7 +153,7 @@ def editar_un_campo(
 @app.get('/estudiantes/cuenta/{cuenta}')
 def filtrar_por_cuenta(
     
-    cuenta: int,
+    cuenta: str,
     base_datos: Session = Depends(abrir_puerta_bd)
     
 ):
