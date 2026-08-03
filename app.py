@@ -20,28 +20,30 @@ MiClaseBase.metadata.create_all(bind = motor)
 def crear_nuevo_estudiante(
     json_de_url: Revision, 
     base_datos: Session = Depends(abrir_puerta_bd)
+):
+    datos_enviados = base_datos.query(TablaEstudiantes).filter(TablaEstudiantes.cuenta == json_de_url.cuenta).first()
     
-    ):
-    
-    # capturar esos datos json
-    #cuenta correo edad
-    datos_capturados = TablaEstudiantes(
+    if datos_enviados is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El estudiante con esta cuenta ya existe."
+        )
+    else:
+        # Capturar y guardar los datos enviados
+        datos_capturados = TablaEstudiantes(
+            nombre=json_de_url.nombre,
+            cuenta=json_de_url.cuenta,
+            carrera=json_de_url.carrera,
+            telefono=json_de_url.telefono,
+            correo=json_de_url.correo,
+            edad=json_de_url.edad
+        )
         
-        nombre = json_de_url.nombre,
-        cuenta = json_de_url.cuenta,
-        carrera = json_de_url.carrera,
-        telefono = json_de_url.telefono,
-        correo = json_de_url.correo,
-        edad = json_de_url.edad
+        base_datos.add(datos_capturados)
+        base_datos.commit()
+        base_datos.refresh(datos_capturados)
         
-    )
-    
-    # una vez capturados necesito guardar esos datos en algun lugar
-    
-    base_datos.add(datos_capturados)
-    base_datos.commit()
-    base_datos.refresh(datos_capturados)
-    return datos_capturados
+        return datos_capturados
     
 # metodo get
 @app.get('/estudiantes')
