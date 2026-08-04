@@ -171,6 +171,26 @@ def filtrar_por_cuenta(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Error: Usuario con número de cuenta: {cuenta} no ha sido encontrado"
         )
+         
+
+@app.get("/estudiantes/carrera/{carrera}")
+def filtrar_por_carrera(
+    carrera: str,
+    base_datos: Session = Depends(abrir_puerta_bd)
+):
+    inscritos_en_esa_carrera = base_datos.query(TablaEstudiantes).filter(TablaEstudiantes.carrera.ilike(f"%{carrera}%")).all()
+    
+
+    
+    if not inscritos_en_esa_carrera:  # esta la lista vacia?
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"No hay estudiantes registrados para la carrera: {carrera}"
+        )
+    else:
+        return inscritos_en_esa_carrera
+        
+
     
     
     

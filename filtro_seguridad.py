@@ -8,7 +8,7 @@ class Revision(BaseModel):
     telefono: str = Field(min_length=7, max_length=15)  
     correo: str = Field(min_length=5, max_length=120)
     edad: int = Field(ge=17, le=35)
-    estado_civil : str = Field(min_length=6, max_length = 10)
+    estado_civil : str | None = Field(default = None ,min_length=6, max_length = 10) #opcional
 
 
 # Para PATCH
