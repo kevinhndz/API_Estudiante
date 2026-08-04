@@ -189,6 +189,34 @@ def filtrar_por_carrera(
         )
     else:
         return inscritos_en_esa_carrera
+    
+    
+@app.delete("/estudiantes/carrera/eliminar/{carrera}")
+def eliminar_por_carrera(
+    carrera: str,
+    base_datos: Session = Depends(abrir_puerta_bd)
+):
+    carrera_enviada = base_datos.query(TablaEstudiantes).filter(TablaEstudiantes.carrera.ilike(f"%{carrera}%")).all()
+    
+    if not carrera_enviada:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail = f"La carrera {carrera} no se encontro en la base de datos"
+        )
+    else:
+        contador = 0
+        for student in carrera_enviada:
+            contador += 1
+            base_datos.delete(student)
+        
+        
+        base_datos.commit()
+        return {"mensaje": f"Se elimnaron {contador} estudiantes de la carrera de: {carrera}"}
+    
+        
+    
+    
+    
         
 
     
