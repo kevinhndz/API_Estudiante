@@ -12,6 +12,7 @@ class TablaEstudiantes(MiClaseBase):
     telefono = Column(String)
     correo= Column(String, unique=True)
     edad = Column(Integer)
+    estado_civil = Column(String, nullable = True)   #nullable=True le indica a la base de datos que el campo acepta valores vacios o nulos.
     
     
     

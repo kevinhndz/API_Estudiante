@@ -10,12 +10,11 @@ from filtro_seguridad import Revision, RevisonEditada # el guardia de seguridad 
 
 app = FastAPI()
 
-# crear la base de datos por si no existe
-MiClaseBase.metadata.create_all(bind = motor)
 
 
 #metodo post
 
+#el json esta esperando aqui para ser revsado
 @app.post('/estudiantes')
 def crear_nuevo_estudiante(
     json_de_url: Revision, 
@@ -36,7 +35,8 @@ def crear_nuevo_estudiante(
             carrera=json_de_url.carrera,
             telefono=json_de_url.telefono,
             correo=json_de_url.correo,
-            edad=json_de_url.edad
+            edad=json_de_url.edad,
+            estado_civil = json_de_url.estado_civil
         )
         
         base_datos.add(datos_capturados)
@@ -89,6 +89,7 @@ def actualizar_registro(
     datos_actuales.telefono = json_corregio.telefono
     datos_actuales.correo = json_corregio.correo
     datos_actuales.edad = json_corregio.edad
+    datos_actuales.estado_civil = json_corregio.estado_civil
     base_datos.commit()
     base_datos.refresh(datos_actuales)
     return datos_actuales
@@ -142,6 +143,8 @@ def editar_un_campo(
     if json_enviado.edad is not None:
         caja_actual.edad = json_enviado.edad
     
+    if json_enviado.estado_civil is not None:
+        caja_actual.estado_civil = json_enviado.estado_civil
 
     base_datos.commit()
     base_datos.refresh(caja_actual)  
