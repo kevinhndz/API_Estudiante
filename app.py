@@ -43,7 +43,7 @@ def crear_nuevo_estudiante(
         base_datos.commit()
         base_datos.refresh(datos_capturados)
         
-        return datos_capturados
+        return  f"{json_de_url.nombre} ha sido registrado con exito!"
     
 # metodo get
 @app.get('/estudiantes')
