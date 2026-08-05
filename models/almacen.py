@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# URL de mi base de datos
-UBICACION_ALMACEN = "sqlite:///./base_datos.db"
+
+UBICACION_ALMACEN = "sqlite:///base_datos_app.db"  
 
 # enciendo la conexion
 motor = create_engine(UBICACION_ALMACEN)

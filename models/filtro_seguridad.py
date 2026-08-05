@@ -19,7 +19,7 @@ class RevisonEditada(BaseModel):
     telefono: str | None = Field(default=None, min_length=7, max_length=15)  
     correo: str | None = Field(default=None, min_length=5, max_length=120)
     edad: int | None = Field(default=None, ge=15, le=100)
-    estado_civil : str | None = Field(defualt = None,min_length = 6, max_length = 10)
+    estado_civil : str | None = Field(default = None,min_length = 6, max_length = 10)
     
 class RevisionClase (BaseModel):
     nombre: str = Field(min_length=3, max_length=100)
