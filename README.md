@@ -9,15 +9,19 @@ Proyecto de API REST desarrollado en **FastAPI** con **SQLite3** para gestionar 
 Este repositorio tiene **dos versiones diferentes**:
  
 ### 🔵 Rama `main`
-- Usa **SQL directo** con comandos `INSERT`, `SELECT`, `UPDATE`, `DELETE`
-- Manejo manual de la base de datos con `sqlite3`
-- Ideal para entender cómo funciona SQL por dentro
-- **Menos código**, pero más vulnerable a SQL Injection si no se cuida
-### 🟣 Rama `Version2`
+
 - Usa **SQLAlchemy ORM**
 - Define tablas como clases Python
 - Más seguro y más fácil de mantener
 - **Instala dependencias adicionales:** `pip install sqlalchemy`
+
+### 🟣 Rama `Version2`
+- Usa **SQL directo** con comandos `INSERT`, `SELECT`, `UPDATE`, `DELETE`
+- Manejo manual de la base de datos con `sqlite3`
+- Ideal para entender cómo funciona SQL por dentro
+- **Menos código**, pero más vulnerable a SQL Injection si no se cuida
+
+
 **Para usar Version2:**
 ```bash
 git checkout Version2
