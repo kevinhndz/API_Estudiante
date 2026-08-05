@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 
 # importanciones de mis archivos
 
-from almacen import motor, MiClaseBase,abrir_puerta_bd # mi motor, platnilla, mi conexion
-from tablas import TablaEstudiantes # la tablas (s)
-from filtro_seguridad import Revision, RevisonEditada # el guardia de seguridad pydantic
+from models.almacen import motor, MiClaseBase,abrir_puerta_bd # mi motor, platnilla, mi conexion
+from models.tablas import TablaEstudiantes # la tablas (s)
+from models.filtro_seguridad import Revision, RevisonEditada # el guardia de seguridad pydantic
 
 
 app = FastAPI()

@@ -1,5 +1,5 @@
 from sqlalchemy import Column,Integer, String, ForeignKey
-from almacen import MiClaseBase
+from models.almacen import MiClaseBase
 
 
 class TablaEstudiantes(MiClaseBase):

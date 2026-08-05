@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from tablas import MiClaseBase
+from models.tablas import MiClaseBase
 target_metadata = MiClaseBase.metadata
 
 
