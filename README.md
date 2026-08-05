@@ -11,7 +11,7 @@ Este repositorio tiene **dos versiones diferentes**:
 ### 🔵 Rama `main`
 
  Usa **SQLAlchemy ORM**
-- Define tablas como clases Python
+- Define tablas como clases Python.
 - Más seguro y más fácil de mantener
 - **Instala dependencias adicionales:** `pip install sqlalchemy`
 
