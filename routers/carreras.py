@@ -34,5 +34,26 @@ def registar_carrera(
         )
     
         
+@router.get("/")
+def ver_carreras(
+    base_datos: Session = Depends(abrir_puerta_bd)
+):
+    listado = base_datos.query(TablaCarreras).all()
     
+    if not listado:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = "No hay carreras registradas!"
+            
+        )
+    else:
+        num = 0
+        for carrera in listado:
+            num +=1
+        
+        return { "Mensaje": f"Se encontraron {num} carrera (s)",
+                 "Carreras": listado
+                }
+            
+        
     
