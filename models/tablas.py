@@ -23,3 +23,11 @@ class TablaCarreras (MiClaseBase):
     duracion = Column(String)
     cantidad = Column(Integer)
     
+class TabaUsuarios(MiClaseBase):
+    __tablename__ = "Tabla Ususarios"
+    
+    id = Column(Integer, primary_key= True)
+    usuario = Column(String, unique= True)
+    password = Column(String)
+    
+    
