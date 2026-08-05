@@ -19,5 +19,7 @@ class TablaCarreras (MiClaseBase):
     __tablename__ = "Tabla Carreras"
     
     id = Column(Integer, primary_key=True)
-    nombre_carrera = Column(String, unique = True)
+    nombre = Column(String, unique = True)
+    duracion = Column(String)
+    cantidad = Column(Integer)
     

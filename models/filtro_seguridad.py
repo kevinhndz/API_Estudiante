@@ -23,3 +23,6 @@ class RevisonEditada(BaseModel):
     
 class RevisionClase (BaseModel):
     nombre: str = Field(min_length=3, max_length=100)
+    duracion: str = Field(min_length=4, max_length=25)
+    cantidad : int = Field(ge=50, le=70)
+    
