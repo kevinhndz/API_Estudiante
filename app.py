@@ -12,9 +12,11 @@ app = FastAPI()
 
 
 
-#metodo post
+# ----- CRUD DE ESTUDIANTES ------------------
 
-#el json esta esperando aqui para ser revsado
+
+#------CREAR UN NUEVO ESTUDIANTE--------
+
 @app.post('/estudiantes')
 def crear_nuevo_estudiante(
     json_de_url: Revision, 
@@ -45,12 +47,13 @@ def crear_nuevo_estudiante(
         
         return  f"{json_de_url.nombre} ha sido registrado con exito!"
     
-# metodo get
+#------VER TODOS LOS ESTUDIANTES--------
 @app.get('/estudiantes')
 def ver_todos(base_datos: Session = Depends(abrir_puerta_bd)):
     return base_datos.query(TablaEstudiantes).all()
 
-#metodo get, pero filtrado con ruta dinamica
+
+#-----VER ESTUDIANTE POR :*  ID * --------
 
 @app.get('/estudiantes/{id}')
 def ver_estudiante_por_id(
@@ -71,7 +74,7 @@ def ver_estudiante_por_id(
    
 
 
-
+#------EDITAR UN ESTUDIANTE--------
 @app.put('/estudiantes/{id}')
 def actualizar_registro(
      id: int,
@@ -95,6 +98,8 @@ def actualizar_registro(
     return datos_actuales
 
 
+
+#------ELIMINAR UN ESTUDIANTE POR *ID* --------
 @app.delete('/estudiantes/{id}')
 def eliminar_estudiante(
     
@@ -107,7 +112,7 @@ def eliminar_estudiante(
     return {"mensaje": f"Estudiante con ID: {id} eliminado con exito! "}
 
 
-
+#------CAMBIAR UN CAMPO DE UN ESTUDIANTE POR *ID*--------
 @app.patch('/estudiantes/{id}')
 def editar_un_campo(
     id: int,
@@ -123,8 +128,6 @@ def editar_un_campo(
             detail=f"Error: Usuario con numero de id: {id} no ha sido encontrado"
         )
     
-    # 2. Actualización de campos
-    # Si el estudiante SI tiene informacion (no es None)
     if json_enviado.nombre is not None:
         caja_actual.nombre = json_enviado.nombre
     
@@ -152,7 +155,10 @@ def editar_un_campo(
     return caja_actual
 
 
-    #Reto adicional!
+    #-------- Retos adicionales ---------
+    
+    
+    #------VER UN ESTUDIANTE POR NUMERO DE CUENTA--------
 @app.get('/estudiantes/cuenta/{cuenta}')
 def filtrar_por_cuenta(
     
@@ -171,7 +177,9 @@ def filtrar_por_cuenta(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Error: Usuario con número de cuenta: {cuenta} no ha sido encontrado"
         )
-         
+        
+
+ #------VER UN ESTUDIANTE POR CARRERA--------
 
 @app.get("/estudiantes/carrera/{carrera}")
 def filtrar_por_carrera(
@@ -191,6 +199,7 @@ def filtrar_por_carrera(
         return inscritos_en_esa_carrera
     
     
+    #------ELIMINAR UN ESTUDIANTE POR CARRERA-------- 
 @app.delete("/estudiantes/carrera/eliminar/{carrera}")
 def eliminar_por_carrera(
     carrera: str,

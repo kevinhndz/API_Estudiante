@@ -1,8 +1,8 @@
-"""creacion de tablas iniciales
+"""Agregar tablas y relaciones
 
-Revision ID: 89a8ce338c07
+Revision ID: 750af89f996e
 Revises: 
-Create Date: 2026-08-04 00:07:38.318939
+Create Date: 2026-08-04 22:23:05.848383
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '89a8ce338c07'
+revision: str = '750af89f996e'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,11 +25,12 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre', sa.String(), nullable=True),
     sa.Column('cuenta', sa.String(), nullable=True),
-    sa.Column('carrera', sa.String(), nullable=True),
+    sa.Column('carrera', sa.Integer(), nullable=True),
     sa.Column('telefono', sa.String(), nullable=True),
     sa.Column('correo', sa.String(), nullable=True),
     sa.Column('edad', sa.Integer(), nullable=True),
     sa.Column('estado_civil', sa.String(), nullable=True),
+    sa.ForeignKeyConstraint(['carrera'], ['Tabla Carreras.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('correo'),
     sa.UniqueConstraint('cuenta')
