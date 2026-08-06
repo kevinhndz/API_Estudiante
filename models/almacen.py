@@ -1,11 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-UBICACION_ALMACEN = "sqlite:///base_datos_app.db"  
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # enciendo la conexion
-motor = create_engine(UBICACION_ALMACEN)
+motor = create_engine(DATABASE_URL)
 # creo eventos temporales para abrir la base de datos las llaves fisicas
 FabricaLlaves = sessionmaker(bind=motor)
 #darle superpoderes a mis clases para que puedan manifestarse como tablas
