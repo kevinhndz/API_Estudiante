@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from routers import carreras, estudiantes
+from routers import becas
 
 
 app = FastAPI(title="API Programacion2")
 
-app.include_router(estudiantes.router)
-app.include_router(carreras.router)
+app.include_router(becas.router)
+
 
 
 
