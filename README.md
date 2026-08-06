@@ -1,94 +1,169 @@
-# 📚 API de Gestión de Estudiantes con SQLAlchemy
- 
-Proyecto de API REST desarrollado en **FastAPI** con **SQLAlchemy** para gestionar información de estudiantes. La API permite crear, leer, actualizar y eliminar registros de estudiantes mediante endpoints HTTP.
- 
----
- 
-## 🌿 Ramas del Proyecto
- 
-Este repositorio tiene **dos versiones diferentes**:
- 
-### 🔵 Rama `main`
+# 📚 API de Gestión Académica
 
- Usa **SQLAlchemy ORM**
-- Define tablas como clases Python.
-- Más seguro y más fácil de mantener
-- Esta rama utiliza como base de datos Postgre + SupaBase combo
-- Se utilzaron herramientas de automatizacion como Alembic para migrar los logs de cada commit a la base de datos.
-por si se necesita en el futuro modificar una campo, agregar o eliminar, la base de datos no colapsa.
-- **Instala dependencias adicionales:** `pip install sqlalchemy`
+Proyecto de API REST desarrollado en **FastAPI** + **PostgreSQL** (Supabase) para gestionar estudiantes, profesores, carreras y más.
 
-**Para usar main:**
-```bash
-pip install -r requirements.txt
-```
 ---
 
-### 🟣 Rama `Version2`
-- Usa **SQL directo** con comandos `INSERT`, `SELECT`, `UPDATE`, `DELETE`
-- Manejo manual de la base de datos con `sqlite3`
-- Ideal para entender cómo funciona SQL por dentro
-- **Menos código**, pero más vulnerable a SQL Injection si no se cuida
+## 🌿 Dos Versiones
 
+### Rama `main` (Avanzada)
+- Base de datos PostgreSQL en Supabase
+- Múltiples tablas relacionadas , agregue mas tablas para jugar con los endpoints y hacerlo mas complejo y profesional.
+- Migraciones con Alembic
+- Ideal para aprender arquitectura profesional
 
- 
-## ⚙️ Cómo Instalar y Ejecutar
- 
-### Paso 1: Clonar el repositorio
- 
+### Rama `Version2` (Simple)
+- Base de datos SQLite
+- CRUD básico
+- Ideal para aprender SQL puro
+
+---
+
+## 🚀 Instalación Rápida (Rama `main`)
+
+### Paso 1: Descargar el repositorio
+
 ```bash
 git clone https://github.com/kevinhndz/API_Estudiante.git
 cd API_Estudiante
+git checkout main
 ```
- 
-### Paso 2: Crear el entorno virtual
- 
+
+### Paso 2: Crear entorno virtual
+
 ```bash
 python -m venv venv
 ```
- 
-Activar el entorno virtual:
- 
-**En Windows:**
+
+Activar (Windows):
 ```bash
 venv\Scripts\activate
 ```
- 
-### Paso 3: Instalar las dependencias
- 
+
+Activar (Mac/Linux):
+```bash
+source venv/bin/activate
+```
+
+### Paso 3: Instalar dependencias
+
 ```bash
 pip install -r requirements.txt
 ```
  
-### Paso 4: Ejecutar el servidor
- 
+
+**Este paso es diferente para cada persona porque cada uno necesita su propia base de datos.**
+
+### 1. Ir a [supabase.com](https://supabase.com) y crea una cuenta gratuita
+### 2. Crea un nuevo proyecto (toma ~2 minutos)
+
+
+### 3. Presiona Connect
+![GET Todos](img/paso1.png)
+
+
+### 4. Elegir la opcion correcta
+
+Asegurate que elijas la opcion Direct Connection String -> y de ahi -> Direct Connection
+de ahi desliza un poco...
+
+![GET Todos](img/paso2.png)
+
+### 5. En el dashboard, copia la URL de conexion PostgreSQL
+
+Si se fijan bien, hay una URL, ver en imagen. Copia eso, se ve algo asi:
+
+postgres:TU_PASSWORD@db.TU_ID.supabase.co:5432/postgres
+
+![GET Todos](img/paso3.png)
+
+
+
+### 6.  En la raiz del proyecto clonado, crea un archivo `.env`:
+
+
+```env
+DATABASE_URL=postgresql://postgres:TU_PASSWORD@db.TU_ID.supabase.co:5432/postgres
+```
+
+Reemplaza:
+- `TU_PASSWORD` = La contraseña que est
+- `TU_ID` = El ID único de tu proyecto
+
+
+### Paso 7: Crear las tablas en la BD
+
+```bash
+alembic revision --autogenerate -m "Crear tablas iniciales"
+alembic upgrade head
+```
+
+### Paso 6: Ejecutar la API
+
 ```bash
 uvicorn app:app --reload
 ```
- 
-La API estará disponible en `http://127.0.0.1:8000` 🚀
- 
+
+🎉 **La API esta en:** `http://127.0.0.1:8000`
+
 ---
- 
+
 ## 📂 Estructura del Proyecto
- 
+
 ```
-API_Estudiante/
-├── app.py               # Endpoints y lógica principal
-├── almacen.py           # Conexión a BD y configuración SQLAlchemy
-├── tablas.py            # Modelo de la tabla Estudiantes
-├── filtro_seguridad.py  # Validación de datos con Pydantic
-├── database.db          # Base de datos SQLite
-├── requirements.txt     # Dependencias del proyecto
-└── img/                 # Capturas de las pruebas
-    ├── POST.png
-    ├── GET.png
-    ├── GET_UNICO.png
-    ├── PUT.png
-    └── DELETE.png
+en proceso **
 ```
- 
+
 ---
+
+## 📖 Documentación Interactiva
+
+Una vez que la API este corriendo, accede a:
+
+- **Swagger UI:** `http://127.0.0.1:8000/docs`
+- **ReDoc:** `http://127.0.0.1:8000/redoc`
+
+Ahi se ven TODOS los endpoints automaticamente.
+
+---
+
+## 🛠️ Herramientas Utilizadas
+
+- **FastAPI** - Framework web
+- **SQLAlchemy** - ORM para base de datos
+- **PostgreSQL** - Base de datos
+- **Supabase** - Hosting de PostgreSQL
+- **Alembic** - Versionado de migraciones
+- **Pydantic** - Validación de datos
+- **Uvicorn** - Servidor
+
+---
+
+## ❓ Preguntas Frecuentes
+
+### ¿Necesito Supabase?
+**Sí, para rama `main`.** 
+
+### ¿Puedo usar otra base de datos?
+Sí, modifica el  `DATABASE_URL` en  el `.env`:
+
+```env
+# MySQL
+DATABASE_URL=mysql+pymysql://usuario:password@localhost/dbname
+
+# SQLite (local)
+DATABASE_URL=sqlite:///./test.db
+```
+
+### ¿Cómo veo los datos en Supabase?
+En el dashboard → Table Editor → Selecciona la tabla → Ves los datos en tiempo real.
+
+### ¿Qué es Alembic?
+Sistema de control de versiones para bases de datos. Trackea cambios en la estructura sin perder datos.
+Es como un Github2.0 que vive en el codigo.
+
+---
+
  
 ## 📝 Detalles Técnicos
  
@@ -96,40 +171,7 @@ API_Estudiante/
  
 SQLAlchemy es un ORM (Object-Relational Mapping). En lugar de escribir SQL directamente, defino mis tablas como clases de Python. Eso hace que el código sea más limpio y seguro.
  
-### Estructura de Archivos
- 
-- **almacen.py:** Aquí configuro la conexión a SQLite. El `motor` es el encargado de ejecutar las queries. `abrir_puerta_bd()` es una función que abre y cierra la conexión cada vez que hago una petición.
-- **tablas.py:** Defino las columnas de la tabla como atributos de una clase. SQLAlchemy convierte eso automáticamente en una tabla en la BD.
-- **filtro_seguridad.py:** Uso Pydantic para validar los datos. `Revision` valida cuando creo o edito, y `RevisonEditada` permite campos opcionales para actualizaciones parciales.
-- **app.py:** Los endpoints de FastAPI que reciben peticiones, consultan la BD y devuelven respuestas.
-### Operaciones CRUD
- 
-El proyecto implementa las 4 operaciones básicas:
- 
-| Operación | Verbo HTTP | Qué hace |
-|---|---|---|
-| **Crear** | `POST` | Agregar un nuevo estudiante |
-| **Leer** | `GET` | Obtener datos de estudiantes |
-| **Actualizar** | `PUT` | Modificar un estudiante existente |
-| **Eliminar** | `DELETE` | Borrar un estudiante |
- 
-### Por qué SQLite
- 
-- **Fácil de usar:** No necesita un servidor externo
-- **Portátil:** Todo está en un solo archivo `.db`
-- **Perfecto para proyectos pequeños:** Rápido y sin complicaciones
-### Seguridad: Prevención de SQL Injection
- 
-Con SQLAlchemy, no escribo SQL directamente. El ORM se encarga de construir las consultas de forma segura. No hay riesgo de SQL Injection porque los datos nunca se concatenan directamente.
- 
-```python
-# Con SQLAlchemy es automáticamente seguro
-base_datos.query(TablaEstudiantes).get(id)
-```
- 
-No necesito placeholders como `?` porque SQLAlchemy ya lo hace por mí.
- 
----
+
 
 
 ## 📸 Primero, lo primero. Crear la base de datos (Aqui mi logica en papel)
@@ -295,3 +337,10 @@ Porque GET es solo para pedir información, no para enviar datos nuevos. Los dat
 ### 10. ¿Qué indica una respuesta 409?
 
 El 409 Conflict aparece cuando intento crear algo que causa conflicto. En mi API, si intento crear un estudiante con una cuenta o correo que ya existe, recibo 409 porque viola el constraint UNIQUE que puse. Otros códigos que manejo son 400 (datos mal), 404 (no existe) y 500 (error del servidor).
+
+
+## 👨‍💻 Autor
+
+Kevin Hernández - [GitHub](https://github.com/kevinhndz)
+
+---
