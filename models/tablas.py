@@ -1,5 +1,5 @@
 from sqlalchemy import Integer, String, ForeignKey, Column, Float
-from almacen import MiClaseBase  
+from models.almacen import MiClaseBase  
 from sqlalchemy.orm import relationship
 
 
