@@ -13,6 +13,9 @@ Este repositorio tiene **dos versiones diferentes**:
  Usa **SQLAlchemy ORM**
 - Define tablas como clases Python.
 - Más seguro y más fácil de mantener
+- Esta rama utiliza como base de datos Postgre + SupaBase combo
+- Se utilzaron herramientas de automatizacion como Alembic para migrar los logs de cada commit a la base de datos.
+por si se necesita en el futuro modificar una campo, agregar o eliminar, la base de datos no colapsa.
 - **Instala dependencias adicionales:** `pip install sqlalchemy`
 
 **Para usar main:**
@@ -128,14 +131,33 @@ No necesito placeholders como `?` porque SQLAlchemy ya lo hace por mí.
  
 ---
 
+
+## 📸 Primero, lo primero. Crear la base de datos (Aqui mi logica en papel)
+- **Porque es necesario?:** Porque sin una estructura no se codea/ piensa bien.
+- **Menos Errores:** Con una estructura , menos errores, mas rapido se trabaja.
+- **Se recomineda:** . Se recomienda crear la base de Datos PRIMERO, antes de hacer una Rest API.
+
+
+![ESTRUCTURA!](img/testingpic.jpg)
+
+
+## 📸  Aqui , el schema hecho con Diagramas, mas visible!
+
+![ESTRUCTURA!](img/dbpi.png)
+
+
+
 ## 📸 Mapa Mental de como se Mueven los Datos
 
 ![ESTRUCTURA!](img/STRUCTURE.png)
  
 
-## 📸 Evidencias de Pruebas en Postman (CRUD)
+## 📸 Evidencias de Pruebas en Postman (CRUD) Solo con el modulo estudiantes 
 
-A continuación se muestran las pruebas de funcionamiento enviadas a los endpoints con sus correspondientes códigos de estado HTTP (`200 OK`):
+A continuación se muestran las pruebas de funcionamiento enviadas a los endpoints con sus correspondientes códigos de estado HTTP (`200 OK`): 
+
+PSDTA: Ya que estas en mi repositorio, y deseas correr esta API y probarla, puedes acceder a esta documentacion:
+Solo necesitaras POSTAMAN y seguir las instrucciones de la documentacion.
 
 ### 1. Crear Estudiante (`POST /estudiantes`)
 
@@ -210,42 +232,7 @@ Remueve de forma permanente de la base de datos el registro perteneciente al ide
 
 Una **API** es básicamente un "contrato" entre el servidor y el cliente. Le permite al profesor (o a cualquiera) comunicarse con mi aplicación enviando peticiones HTTP y recibir datos en formato JSON.
 
-### Operaciones CRUD
 
-El proyecto implementa las 4 operaciones básicas:
-
-| Operación | Verbo HTTP | Qué hace |
-|---|---|---|
-| **Crear** | `POST` | Agregar un nuevo estudiante |
-| **Leer** | `GET` | Obtener datos de estudiantes |
-| **Actualizar** | `PUT` | Modificar un estudiante existente |
-| **Eliminar** | `DELETE` | Borrar un estudiante |
-
-### Por que SQLite
-
-- **Fácil de usar:** No necesita un servidor externo
-- **Portátil:** Todo está en un solo archivo `.db`
-- **Perfecto para proyectos pequeños:** Rápido y sin complicaciones
-
-### Seguridad: Prevención de SQL Injection
-
-En el archivo `crud.py` usé consultas parametrizadas para evitar ataques:
-
-```python
-cursor.execute("SELECT * FROM estudiantes WHERE id = ?", (estudiante_id,))
-```
-
-De esta forma, la base de datos trata la entrada como datos, nunca como codigo SQL.
-
----
-
-## ✅ Lo que Incluye
-
-✔️ 5 endpoints funcionales (POST, GET, GET por ID, PUT, DELETE)  
-✔️ Base de datos SQLite integrada  
-✔️ Validación de datos con Pydantic  
-✔️ Consultas seguras (sin SQL Injection)  
-✔️ Capturas de prueba en Postman  
 
 ---
 # Preguntas y Respuestas del Proyecto
