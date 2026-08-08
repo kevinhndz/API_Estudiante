@@ -1,41 +1,29 @@
-# 📚 API de Gestión de Estudiantes
+# API de Gestion de Estudiantes e Inventario de Materiales
 
-Proyecto de API REST desarrollado en **FastAPI** con **SQLite3** para gestionar información de estudiantes. La API permite crear, leer, actualizar y eliminar registros de estudiantes mediante endpoints HTTP.
+Una API REST simple pero funcional hecha en FastAPI y SQLite3. Sirve para manejar la informacion de estudiantes y controlar un inventario de materiales. Todo con operaciones basicas de CRUD (crear, leer, actualizar, eliminar) a traves de HTTP.
 
----
+## Ramas del Proyecto
 
-## 🌿 Ramas del Proyecto
- 
-Este repositorio tiene **dos versiones diferentes**:
- 
-### 🔵 Rama `main`
+El repositorio tiene dos versiones diferentes:
 
-- Usa **SQLAlchemy ORM**
-- Define tablas como clases Python
-- Más seguro y más fácil de mantener
-- **Instala dependencias adicionales:** `pip install sqlalchemy`
+### main
+- Usa SQLAlchemy ORM
+- Las tablas se definen como clases Python
+- Mas facil de mantener y mas seguro
+- Necesita instalar SQLAlchemy con `pip install sqlalchemy`
 
-### 🟣 Rama `Version2`
-- Usa **SQL directo** con comandos `INSERT`, `SELECT`, `UPDATE`, `DELETE`
-- Manejo manual de la base de datos con `sqlite3`
-- Ideal para entender cómo funciona SQL por dentro
-- **Menos código**, pero más vulnerable a SQL Injection si no se cuida
+### Version2 (La que estamos usando)
+- SQL directo con INSERT, SELECT, UPDATE, DELETE
+- Manejo manual de la BD con sqlite3
+- Sirve para entender como funciona SQL de verdad
+- Menos dependencias pero hay que tener cuidado con SQL Injection
 
-
-**Para usar Version2:**
-```bash
-git checkout Version2
-pip install -r requirements.txt
-```
- 
----
-
-## ⚙️ Cómo Instalar y Ejecutar
+## Como Instalar y Ejecutar
 
 ### Paso 1: Clonar el repositorio
 
 ```bash
-git clone https://github.com/kevinhndz/API_Estudiante.git
+git clone -b Version2 https://github.com/kevinhndz/API_Estudiante.git
 cd API_Estudiante
 ```
 
@@ -45,14 +33,12 @@ cd API_Estudiante
 python -m venv venv
 ```
 
-Activar el entorno virtual:
-
-**En Windows:**
+**Activar en Windows:**
 ```bash
 venv\Scripts\activate
 ```
 
-**En Linux/Mac:**
+**Activar en Linux/Mac:**
 ```bash
 source venv/bin/activate
 ```
@@ -69,27 +55,52 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-La API estará disponible en `http://127.0.0.1:8000` 🚀
+La API va a estar en `http://127.0.0.1:8000`
 
----
+Para ver la documentacion interactiva (Swagger) entra a `http://127.0.0.1:8000/docs`
 
-## 📂 Estructura del Proyecto
+## Endpoints Principales
+
+### Estudiantes (`/estudiantes`)
+
+- **GET** `/estudiantes` - Trae la lista de todos los estudiantes
+- **GET** `/estudiantes/{id}` - Trae los datos de un estudiante especifico
+- **POST** `/estudiantes` - Agrega un estudiante nuevo (valida que no se repita el correo ni la cuenta)
+- **PUT** `/estudiantes/{id}` - Actualiza los datos de un estudiante
+- **DELETE** `/estudiantes/{id}` - Borra un estudiante
+
+### Materiales (`/materiales`)
+
+- **GET** `/materiales` - Trae todo el inventario
+- **GET** `/materiales/{id}` - Trae los datos de un material especifico
+- **POST** `/materiales` - Agrega un material nuevo (valida el SKU y que el stock sea >= 0)
+- **PUT** `/materiales/{id}` - Actualiza los datos o el stock de un material
+- **DELETE** `/materiales/{id}` - Borra un material del sistema
+
+## Estructura del Proyecto
 
 ```
 API_Estudiante/
-├── main.py              # Archivo principal con los endpoints
-├── database.py          # Configuración y conexión de la BD
-├── schemas.py           # Modelos de validación con Pydantic
-├── crud.py              # Funciones para operaciones en la BD
-├── estudiantes.db       # Base de datos SQLite
-├── requirements.txt     # Dependencias del proyecto
-└── img/                 # Capturas de las pruebas
+├── main.py              # El archivo principal con los endpoints
+├── models/
+│   ├── database.py      # Configuracion de SQLite3 y creacion de tablas
+│   ├── schemas.py       # Validaciones con Pydantic (datos de entrada/salida)
+│   └── crud.py          # Las funciones SQL (Insert, Select, Update, Delete)
+├── estudiantes.db       # La base de datos (se crea sola)
+├── requirements.txt     # Las dependencias (FastAPI, Uvicorn, Pydantic)
+└── img/                 # Imagenes de pruebas en Postman (solo estuidantes)
     ├── POST.png
     ├── GET.png
     ├── GET_UNICO.png
     ├── PUT.png
     └── DELETE.png
 ```
+
+## Validaciones
+
+La API valida los datos con Pydantic y devuelve un error 409 (Conflict) si se intenta agregar un registro duplicado (como correos o codigos SKU repetidos).
+
+
 
 ---
 

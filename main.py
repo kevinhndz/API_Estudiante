@@ -18,7 +18,7 @@ crear_tablas()
 def crear_estudiante(estudiante: EntradaEstudiante):
     resultado = crear_estudiante_db(estudiante)
     if resultado == "duplicado":
-        raise HTTPException(status_code=409, detail="La cuenta o correo ya están registrados")
+        raise HTTPException(status_code=409, detail="La cuenta o correo ya estan registrados en el sistema")
     return resultado
 
 @app.get("/estudiantes", response_model=list[SalidaEstudiante])
@@ -36,7 +36,7 @@ def obtener_estudiante(estudiante_id: int):
 def actualizar_estudiante(estudiante_id: int, estudiante: EntradaEstudiante):
     resultado = actualizar_estudiante_db(estudiante_id, estudiante)
     if resultado == "duplicado":
-        raise HTTPException(status_code=409, detail="La cuenta o correo ya están registrados por otro estudiante")
+        raise HTTPException(status_code=409, detail="La cuenta o correo ya estan ocupados por otro estudiante")
     if not resultado:
         raise HTTPException(status_code=404, detail="Estudiante no encontrado")
     return resultado
