@@ -1,6 +1,9 @@
 import sqlite3
+import os
 
-DB_NAME = "estudiantes.db" 
+os.makedirs("datos_sqlite", exist_ok=True)
+
+DB_NAME = "datos_sqlite/estudiantes.db" 
 
 def obtener_conexion():
     conexion = sqlite3.connect(DB_NAME)
