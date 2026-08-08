@@ -33,8 +33,8 @@ git checkout main
 
 ```bash
 python -m venv venv
-```
 
+```
 Activar (Windows):
 ```bash
 venv\Scripts\activate
